@@ -1,0 +1,33 @@
+@startuml
+skinparam monochrome true
+interface ProjectElement { +accept(visitor: ProjectVisitor): void }
+interface ProjectVisitor {
+ +visit(SourceCodeFile)
+ +visit(TestFile)
+ +visit(ConfigurationFile)
+ +visit(DependencyFile)
+ +visit(Directory)
+}
+class SourceCodeFile
+class TestFile
+class ConfigurationFile
+class DependencyFile
+class Directory { +add(element: ProjectElement) }
+class SecurityAuditVisitor
+class ProjectStatisticsVisitor
+class QualityGateVisitor
+class ComplianceVisitor
+class DocumentationVisitor
+ProjectElement <|.. SourceCodeFile
+ProjectElement <|.. TestFile
+ProjectElement <|.. ConfigurationFile
+ProjectElement <|.. DependencyFile
+ProjectElement <|.. Directory
+Directory "1" o-- "0..*" ProjectElement
+ProjectVisitor <|.. SecurityAuditVisitor
+ProjectVisitor <|.. ProjectStatisticsVisitor
+ProjectVisitor <|.. QualityGateVisitor
+ProjectVisitor <|.. ComplianceVisitor
+ProjectVisitor <|.. DocumentationVisitor
+ProjectElement ..> ProjectVisitor : accept(visitor)
+@enduml

@@ -1,0 +1,17 @@
+@startuml
+actor User
+participant "Main" as Main
+participant "Directory" as Root
+participant "SourceCodeFile" as File
+participant "SecurityAuditVisitor" as Visitor
+User -> Main : run()
+Main -> Root : accept(visitor)
+Root -> Visitor : visit(directory)
+Root -> File : accept(visitor)
+File -> Visitor : visit(this: SourceCodeFile)
+Visitor --> File : record issues
+File --> Root : return
+Root --> Main : return
+Main -> Visitor : report()
+Visitor --> Main : security report
+@enduml
